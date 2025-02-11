@@ -8,6 +8,8 @@ import cadetRouter from "./routes/cadet.route.js";
 import eventRouter from "./routes/event.route.js";
 import attendenceRouter from "./routes/attendence.route.js";
 import Reportrouter from "./routes/report.route.js";
+import examRouter from "./routes/exam.route.js";
+import resultRouter from "./routes/result.route.js";
 
 const app = express()
 
@@ -21,6 +23,8 @@ app.use("/api/v1/cadet", cadetRouter)
 app.use("/api/v1/event", eventRouter)
 app.use("/api/v1/attendence", attendenceRouter)
 app.use("/api/v1/report", Reportrouter)
+app.use("/api/v1/exam", examRouter)
+app.use("/api/v1/result", resultRouter)
 
 
 // @Global Middleware

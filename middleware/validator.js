@@ -129,7 +129,7 @@ const validateGetAttendanceByDate = (req, res, next) => {
     next();
 };
 
-// ✅  Middleware to validate Report details
+// ✅ Middleware to validate Report details
 const validateReportDetails = (req, res, next) => {
     const validationSchema = joi.object({
         cadetId: joi.string().required().trim().regex(/^[0-9a-fA-F]{24}$/).messages({
@@ -163,6 +163,45 @@ const validateReportDetails = (req, res, next) => {
     next();
 };
 
+// ✅ Validation for Exam Details
+const validateExamDetails = (req, res, next) => {
+    const validationSchema = joi.object({
+        title: joi.string().required().trim().min(3).max(100),
+        description: joi.string().allow("").trim().max(500),
+        date: joi.date().iso().required(),
+        totalMarks: joi.number().required().min(1).max(1000),
+        passingMarks: joi.number().required().min(1).max(joi.ref('totalMarks')),
+        duration: joi.number().required().min(1).max(300)
+    });
+
+    const { error, value } = validationSchema.validate(req.body);
+    if (error) {
+        return next(createError(422, error.details[0].message));
+    }
+    req.body = value;
+    
+    next();
+};
+
+// ✅ Validation for Update Exam Details
+const validateUpdateExam = (req, res, next) => {
+    const validationSchema = joi.object({
+        title: joi.string().trim().min(3).max(100),
+        description: joi.string().allow("").trim().max(500),
+        date: joi.date().iso(),
+        totalMarks: joi.number().min(1).max(1000),
+        passingMarks: joi.number().min(1).max(1000),
+        duration: joi.number().min(1).max(300)
+    }).min(1); // Ensures at least one field is provided for update
+
+    const { error, value } = validationSchema.validate(req.body);
+    if (error) {
+        return next(createError(422, error.details[0].message));
+    }
+    req.body = value;
+    next();
+};
+
 export {
     validateRegisterUser,
     validateLoginUser,
@@ -171,5 +210,7 @@ export {
     validateMarkAttendance,
     validateUpdateAttendance,
     validateGetAttendanceByDate,
-    validateReportDetails
+    validateReportDetails,
+    validateExamDetails,
+    validateUpdateExam
 };

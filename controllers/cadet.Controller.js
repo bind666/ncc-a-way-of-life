@@ -9,8 +9,7 @@ const addCadet = asyncHandler(async (req, res, next) => {
     const { name, rank, email, regNo, unit, progress } = req.body;
     const { _id } = req.user;
     const password = email
-    console.log(password);
-    
+    // console.log(password);
 
     const existingCadet = await Cadet.findOne({ regNo });
     if (existingCadet) {

@@ -11,7 +11,7 @@ import { validateReportDetails } from "../middleware/validator.js";
 
 const Reportrouter = express.Router();
 
-// Create a new report (Admin Only)
+// Create a new report (Admin Only)x
 Reportrouter.route("/create").post(auth, isAdmin, validateReportDetails, createReport);
 
 // Get all reports (Admin Only)
