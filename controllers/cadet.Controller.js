@@ -31,12 +31,8 @@ const addCadet = asyncHandler(async (req, res, next) => {
 
 });
 
-
 const updateCadet = asyncHandler(async (req, res, next) => {
 
-    // if (req.user.role !== "admin") {
-    //     return next(createError(403, "Only admins can update cadet details."));
-    // }
     const { id } = req.params;
     const { name, rank, unit, progress } = req.body;
 
@@ -84,10 +80,6 @@ const getAllCadets = asyncHandler(async (req, res, next) => {
 const getCadetDetails = asyncHandler(async (req, res, next) => {
 
     const cadet = await Cadet.findOne({ _id: req.user._id });
-    // console.log(cadet);
-
-    // console.log(req.user._id);
-
 
     if (!cadet) {
         return next(createError(404, "Cadet details not found."));
